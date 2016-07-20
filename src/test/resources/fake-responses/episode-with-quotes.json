@@ -1,0 +1,42 @@
+{
+  "resultCount": 24,
+  "results": [
+    {
+      "wrapperType": "track",
+      "kind": "tv-episode",
+      "artistId": 328355264,
+      "collectionId": 909080561,
+      "trackId": 921325395,
+      "artistName": "test's",
+      "collectionName": "The Good Wife, Season 6",
+      "trackName": "The Line",
+      "collectionCensoredName": "The Good Wife, Season 6",
+      "trackCensoredName": "The Line",
+      "artistViewUrl": "https://itunes.apple.com/us/tv-show/the-good-wife/id328355264?uo=4",
+      "collectionViewUrl": "https://itunes.apple.com/us/tv-season/the-line/id909080561?i=921325395&uo=4",
+      "trackViewUrl": "https://itunes.apple.com/us/tv-season/the-line/id909080561?i=921325395&uo=4",
+      "previewUrl": "http://a59.phobos.apple.com/us/r1000/146/Video4/v4/e5/42/f3/e542f313-a07f-a1cb-66ec-a1220b455653/mzvf_802030395413988154.640x480.h264lc.D2.p.m4v",
+      "artworkUrl30": "http://is5.mzstatic.com/image/thumb/Music6/v4/a0/f1/90/a0f19024-561b-4367-f0e9-72a76acbd9f3/source/30x30bb.jpg",
+      "artworkUrl60": "http://is5.mzstatic.com/image/thumb/Music6/v4/a0/f1/90/a0f19024-561b-4367-f0e9-72a76acbd9f3/source/60x60bb.jpg",
+      "artworkUrl100": "http://is5.mzstatic.com/image/thumb/Music6/v4/a0/f1/90/a0f19024-561b-4367-f0e9-72a76acbd9f3/source/100x100bb.jpg",
+      "collectionPrice": 38.99,
+      "trackPrice": 1.99,
+      "collectionHdPrice": 44.99,
+      "trackHdPrice": 2.99,
+      "releaseDate": "2014-09-21T07:00:00Z",
+      "collectionExplicitness": "notExplicit",
+      "trackExplicitness": "notExplicit",
+      "discCount": 1,
+      "discNumber": 1,
+      "trackCount": 23,
+      "trackNumber": 1,
+      "trackTimeMillis": 2627711,
+      "country": "USA",
+      "currency": "USD",
+      "primaryGenreName": "Drama",
+      "contentAdvisoryRating": "TV-14",
+      "shortDescription": "'\"\"\"",
+      "longDescription": "'\"\"\"\""
+    }
+  ]
+}

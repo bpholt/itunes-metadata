@@ -1,4 +1,5 @@
 package com.planetholt.itunes
+
 import com.planetholt.itunes.model._
 import org.json4s._
 import org.json4s.ext.JodaTimeSerializers
@@ -6,16 +7,17 @@ import org.json4s.native.JsonMethods._
 import skinny.http.{HTTP, _}
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.matching.Regex
+import scala.util.matching.Regex.Match
 
 class EpisodesRetriever(http: HTTP = HTTP) {
   implicit val formats = DefaultFormats ++ JodaTimeSerializers.all
 
-  def getEpisodes(showId: String,
-                  season: Season,
+  def getEpisodes(season: Season,
                   hdVideo: Option[Boolean],
                   picture: Option[String])(implicit ec: ExecutionContext): Future[List[Episode]] = {
     val req = Request("https://itunes.apple.com/lookup").queryParams(
-      ("id", showId),
+      ("id", season.collectionId),
       ("entity", "tvEpisode")
     )
     val eventualResponse = http.asyncGet(req)
@@ -28,7 +30,24 @@ class EpisodesRetriever(http: HTTP = HTTP) {
         .extract[List[CollectionItemDTO]]
         .filter(dto ⇒ dto.isEpisode && !dto.isSupplementalContent)
         .map(_.toEpisodeOfSeason(season, hdVideo, picture))
-//        .filter(_.trackNumber == 1)
+        .map(EpisodesRetriever.smartQuotes)
     }
+  }
+
+}
+
+object EpisodesRetriever {
+  import Mappable._
+  val mappable = materializeMappable[Episode]
+  val quotesRegex = new Regex(""""([^"]*)("?)""", "content", "optionalTrailingQuote")
+
+  def smartQuotes(episode: Episode): Episode = mappable.fromMap(mappable.toMap(episode).map {
+    case (key: String, value: String) ⇒ (key, quotesRegex.replaceAllIn(value.replace("'", "’"), replaceQuotesInMatch))
+    case other ⇒ other
+  })
+
+  val replaceQuotesInMatch: (Match) ⇒ String = m ⇒ {
+    val trailer = if (m.group("optionalTrailingQuote").equals("\"")) "”" else ""
+    s"“${m.group("content")}$trailer"
   }
 }
