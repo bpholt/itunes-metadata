@@ -16,9 +16,11 @@ object Options {
     val filename = f"S${episode.season.seasonNumber}%02dE${episode.trackNumber}%02d.m4v"
 
     val requiredOptions: List[Mp4Option[_]] = List(
+      Type("tvshow"),
       ArtistId(episode.artistId),
       PlaylistId(episode.collectionId),
       ContentId(episode.trackId),
+      Song(episode.trackName),
       Artist(episode.artistName),
       Album(episode.collectionName),
       Year(episode.releaseDate),

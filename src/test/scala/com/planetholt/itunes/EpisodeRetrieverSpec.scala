@@ -43,6 +43,7 @@ class EpisodeRetrieverSpec(implicit ee: ExecutionEnv) extends Specification with
         artistId = 328355264,
         collectionId = 909080561,
         trackId = 923833431,
+        trackName = "Trust Issues",
         artistName = "The Good Wife",
         collectionName = "The Good Wife, Season 6",
         releaseDate = DateTime.parse("2014-09-28T07:00:00Z"),

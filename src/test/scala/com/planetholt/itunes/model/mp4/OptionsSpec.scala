@@ -38,7 +38,8 @@ class OptionsSpec extends Specification with Mockito {
         network = Option("network")
       ),
       hdVideo = Option(true),
-      picture = Option("file.png")
+      picture = Option("file.png"),
+      trackName = "trackName"
     )
   }
 
@@ -47,6 +48,18 @@ class OptionsSpec extends Specification with Mockito {
       val output = Options(input)
 
       output.input must_== "S04E02.m4v"
+    }
+
+    "set the media type option" in new Setup {
+      val output = Options(input)
+
+      output.options must contain(Type("tvshow"))
+    }
+
+    "set the track name" in new Setup {
+      val output = Options(input)
+
+      output.options must contain(Song(input.trackName))
     }
 
     "set the artist id option" in new Setup {
