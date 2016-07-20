@@ -1,17 +1,19 @@
 package com.planetholt.itunes
-import com.planetholt.itunes.model.{mp4, _}
+import com.planetholt.itunes.model._
 import org.json4s._
 import org.json4s.ext.JodaTimeSerializers
 import org.json4s.native.JsonMethods._
-import skinny.http._
+import skinny.http.{HTTP, _}
 
 import scala.concurrent.{ExecutionContext, Future}
-import skinny.http.HTTP
 
 class EpisodesRetriever(http: HTTP = HTTP) {
   implicit val formats = DefaultFormats ++ JodaTimeSerializers.all
 
-  def getEpisodes(showId: String)(implicit ec: ExecutionContext): Future[List[Episode]] = {
+  def getEpisodes(showId: String,
+                  season: Season,
+                  hdVideo: Option[Boolean],
+                  picture: Option[String])(implicit ec: ExecutionContext): Future[List[Episode]] = {
     val req = Request("https://itunes.apple.com/lookup").queryParams(
       ("id", showId),
       ("entity", "tvEpisode")
@@ -22,7 +24,10 @@ class EpisodesRetriever(http: HTTP = HTTP) {
       if (!(200 to 299).contains(res.status)) {
         throw ServiceException(s"Received unexpected status ${res.status} : ${res.asString}")
       }
-      (parse(res.asString) \ "results").extract[List[CollectionItemDTO]].filter(dto ⇒ dto.isEpisode && !dto.isSupplementalContent).map(_.toEpisode)
+      (parse(res.asString) \ "results")
+        .extract[List[CollectionItemDTO]]
+        .filter(dto ⇒ dto.isEpisode && !dto.isSupplementalContent)
+        .map(_.toEpisodeOfSeason(season, hdVideo, picture))
 //        .filter(_.trackNumber == 1)
     }
   }

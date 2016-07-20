@@ -2,14 +2,34 @@ package com.planetholt.itunes.model
 
 import org.joda.time.DateTime
 
-//media=tvShow&entity=tvSeason&term=the%2Bgood%2Bwife&attribute=showTerm
 case class Season(artistId: String,
                   collectionId: String,
                   artistName: String,
                   collectionName: String,
                   copyright: String,
                   releaseDate: DateTime,
-                  primaryGenreName: String
+                  primaryGenreName: String,
+                  seasonNumber: Int,
+                  network: Option[String]
                  )
 
-case class SeasonsResponse(resultCount: Int, results: List[Season])
+case class SeasonDTO(artistId: String,
+                  collectionId: String,
+                  artistName: String,
+                  collectionName: String,
+                  copyright: String,
+                  releaseDate: DateTime,
+                  primaryGenreName: String
+                 ) {
+  def toSeason(seasonNumber: Int, network: Option[String] = None) = Season(
+    artistId = artistId,
+    collectionId = collectionId,
+    artistName = artistName,
+    collectionName = collectionName,
+    copyright = copyright,
+    releaseDate = releaseDate,
+    primaryGenreName = primaryGenreName,
+    seasonNumber = seasonNumber,
+    network = network
+  )
+}
