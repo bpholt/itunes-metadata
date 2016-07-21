@@ -1,4 +1,4 @@
-package com.planetholt.itunes
+package sh.echo
 
 import scala.language.experimental.macros
 import scala.reflect.macros.blackbox.Context
@@ -18,23 +18,25 @@ object Mappable {
     val companion = tpe.typeSymbol.companion
 
     val fields = tpe.decls.collectFirst {
-      case m: MethodSymbol if m.isPrimaryConstructor => m
+      case m: MethodSymbol if m.isPrimaryConstructor ⇒ m
     }.get.paramLists.head
 
-    val (toMapParams, fromMapParams) = fields.map { field =>
+    val (toMapParams, fromMapParams) = fields.map { field ⇒
       val name = field.asTerm.name
       val key = name.decodedName.toString
       val returnType = tpe.decl(name).typeSignature
 
-      (q"$key -> t.$name", q"map($key).asInstanceOf[$returnType]")
+      (q"$key → t.$name", q"map($key).asInstanceOf[$returnType]")
     }.unzip
 
 
-    c.Expr[Mappable[T]] { q"""
+    c.Expr[Mappable[T]] {
+      q"""
       new Mappable[$tpe] {
         def toMap(t: $tpe): Map[String, Any] = Map(..$toMapParams)
         def fromMap(map: Map[String, Any]): $tpe = $companion(..$fromMapParams)
       }
-    """ }
+    """
+    }
   }
 }

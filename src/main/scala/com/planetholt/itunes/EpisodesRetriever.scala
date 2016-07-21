@@ -37,6 +37,7 @@ class EpisodesRetriever(http: HTTP = HTTP) {
 }
 
 object EpisodesRetriever {
+  import sh.echo.Mappable
   import Mappable._
   val mappable = materializeMappable[Episode]
   val quotesRegex = new Regex(""""([^"]*)("?)""", "content", "optionalTrailingQuote")
