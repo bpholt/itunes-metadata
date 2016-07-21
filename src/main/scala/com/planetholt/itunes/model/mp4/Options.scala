@@ -32,6 +32,7 @@ object Options {
       Song(episode.trackName),
       Artist(episode.artistName),
       Album(episode.collectionName),
+      Show(episode.artistName),
       Year(episode.releaseDate),
       Genre(episode.genre),
       Description(episode.shortDescription),

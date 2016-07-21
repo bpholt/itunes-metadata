@@ -93,6 +93,12 @@ class OptionsSpec extends Specification with Mockito {
       output.options must contain(Album(input.collectionName))
     }
 
+    "set the show name option" in new Setup {
+      val output = Options(input)
+
+      output.options must contain(Show(input.artistName))
+    }
+
     "release date options" >> {
       "set the release date option" in new Setup {
         val output = Options(input)
