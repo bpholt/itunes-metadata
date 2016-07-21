@@ -1,5 +1,6 @@
 package com.planetholt.itunes.model.mp4
 
+import com.planetholt.itunes.Config.FilenameFormats
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
@@ -16,7 +17,7 @@ class OptionsSpec extends Specification with Mockito {
       trackId = 3,
       artistName = "artist",
       collectionName = "show",
-      releaseDate = DateTime.now,
+      releaseDate = DateTime.parse("2014-09-28T07:00:00Z"),
       genre = "genre",
       contentAdvisoryRating = "NC17",
       shortDescription = "short",
@@ -39,7 +40,7 @@ class OptionsSpec extends Specification with Mockito {
       ),
       hdVideo = Option(true),
       picture = Option("file.png"),
-      trackName = "trackName"
+      trackName = "’track'Name?"
     )
   }
 
@@ -92,10 +93,16 @@ class OptionsSpec extends Specification with Mockito {
       output.options must contain(Album(input.collectionName))
     }
 
-    "set the release date option" in new Setup {
-      val output = Options(input)
+    "release date options" >> {
+      "set the release date option" in new Setup {
+        val output = Options(input)
 
-      output.options must contain(Year(input.releaseDate))
+        output.options must contain(Year(input.releaseDate))
+      }
+
+      "release date string should not contain time" in new Setup {
+        Year(input.releaseDate).toString must_== "-year 2014-09-28"
+      }
     }
 
     "set the genre option" in new Setup {
@@ -249,6 +256,20 @@ class OptionsSpec extends Specification with Mockito {
       val output = Options(input)
 
       output.options must contain(Remove("eE"))
+    }
+
+    "filename formatting" >> {
+      "format filename in iTunes style if so selected" in new Setup {
+        val output = Options(input, FilenameFormats.iTunes)
+
+        output.input must_== "02 _track_Name_ (HD).m4v"
+      }
+
+      "format filename in S00E00 style if so selected" in new Setup {
+        val output = Options(input, FilenameFormats.S00E00)
+
+        output.input must_== "S04E02.m4v"
+      }
     }
 
   }

@@ -1,19 +1,28 @@
 package com.planetholt.itunes.model.mp4
 
+import com.github.nscala_time.time.StaticDateTimeFormat
+import com.planetholt.itunes.Config.FilenameFormats
+import com.planetholt.itunes.Config.FilenameFormats.FilenameFormats
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormatter
 
 case class Options(input: String, options: List[Mp4Option[_]]) {
   override def toString: String = {
-    val combinedOptions = options.mkString(" ")
-    s"mp4tags $combinedOptions $input"
+    val combinedOptions = options.mkString(" \\\n    ")
+    s"""mp4tags \\
+       |    $combinedOptions \\
+       |    "$input"""".stripMargin
   }
 }
 
 object Options {
   val removeEncodedByAndToolMetadata = Remove("eE")
 
-  def apply(episode: com.planetholt.itunes.model.Episode): Options = {
-    val filename = f"S${episode.season.seasonNumber}%02dE${episode.trackNumber}%02d.m4v"
+  def apply(episode: com.planetholt.itunes.model.Episode, filenameFormat: FilenameFormats = FilenameFormats.S00E00): Options = {
+    val filename = filenameFormat match {
+      case FilenameFormats.S00E00 ⇒ f"S${episode.season.seasonNumber}%02dE${episode.trackNumber}%02d.m4v"
+      case FilenameFormats.iTunes ⇒ f"${episode.trackNumber}%02d ${episode.trackName} (HD).m4v".replaceAll("['’?]", "_")
+    }
 
     val requiredOptions: List[Mp4Option[_]] = List(
       Type("tvshow"),
@@ -201,6 +210,11 @@ case class Writer(value: String) extends StringMp4Option {
 
 case class Year(value: DateTime) extends Mp4Option[DateTime] {
   override def name: String = "-year"
+  override def toString: String = s"$name ${Year.dateFormat.print(value)}"
+}
+
+object Year {
+  val dateFormat: DateTimeFormatter = StaticDateTimeFormat.forPattern("yyyy-MM-dd")
 }
 
 case class ArtistId(value: Int) extends Mp4Option[Int] {

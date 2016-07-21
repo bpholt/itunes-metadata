@@ -13,14 +13,15 @@ object Main extends App {
 
   config match {
     case None ⇒ sys.exit(1)
-    case Some(c) ⇒ Await.ready(new Main(c).lookupEpisodesAsOptions.map(_.foreach(println)), 30 seconds)
+    case Some(c) ⇒
+      Await.result(new Main(c).lookupEpisodesAsOptions.map(_.foreach(println(_))), 30 seconds)
   }
 }
 
 class Main(config: Config,
            seasonsRetriever: SeasonsRetriever = new SeasonsRetriever(),
            episodesRetriever: EpisodesRetriever = new EpisodesRetriever())(implicit ec: ExecutionContext) {
-  def lookupEpisodesAsOptions: Future[List[Options]] = lookupEpisodes.map(_.map(Options(_)))
+  def lookupEpisodesAsOptions: Future[List[Options]] = lookupEpisodes.map(_.map(Options(_, config.filenameFormat)))
 
   def lookupEpisodes: Future[List[Episode]] = {
     val eventualSeason = seasonsRetriever.getSeasonOfShow(config.show, config.season, config.network)

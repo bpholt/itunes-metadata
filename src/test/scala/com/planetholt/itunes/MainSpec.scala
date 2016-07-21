@@ -1,5 +1,6 @@
 package com.planetholt.itunes
 
+import com.planetholt.itunes.Config.FilenameFormats
 import com.planetholt.itunes.model.mp4.Options
 import com.planetholt.itunes.model.{Episode, Season}
 import org.joda.time.DateTime
@@ -12,7 +13,7 @@ import scala.concurrent.Future
 
 class MainSpec(implicit ee: ExecutionEnv) extends Specification with Mockito {
 
-  trait Setup extends Scope {
+  trait TestData {
     val hdVideo = Option(true)
     val picture = Option("file.png")
     val network = Option("network")
@@ -56,14 +57,15 @@ class MainSpec(implicit ee: ExecutionEnv) extends Specification with Mockito {
     seasonsRetriever.getSeasonOfShow(config.show, config.season, network) returns Future.successful(expectedSeason)
 
     episodesRetriever.getEpisodes(expectedSeason, hdVideo, picture) returns Future.successful(List(expectedEpisode))
-    val classToTest = new Main(config, seasonsRetriever, episodesRetriever)
+  }
 
+  trait Setup extends Scope with TestData {
+    val classToTest = new Main(config, seasonsRetriever, episodesRetriever)
   }
 
   "Main" should {
 
     "retrieve the list of seasons" in new Setup {
-
       val output: Future[List[Episode]] = classToTest.lookupEpisodes
 
       output must contain(expectedEpisode).await
@@ -75,5 +77,12 @@ class MainSpec(implicit ee: ExecutionEnv) extends Specification with Mockito {
       output must contain(Options(expectedEpisode)).await
     }
 
+    "pass filename option" in new Scope with TestData {
+      val classToTest = new Main(config.copy(filenameFormat = FilenameFormats.iTunes), seasonsRetriever, episodesRetriever)
+
+      val output = classToTest.lookupEpisodesAsOptions
+
+      output must contain(Options(expectedEpisode, FilenameFormats.iTunes)).await
+    }
   }
 }
