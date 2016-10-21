@@ -1,13 +1,13 @@
 package com.planetholt.itunes.model
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
 case class Season(artistId: String,
                   collectionId: String,
                   artistName: String,
                   collectionName: String,
                   copyright: String,
-                  releaseDate: ZonedDateTime,
+                  releaseDate: Instant,
                   primaryGenreName: String,
                   seasonNumber: Int,
                   network: Option[String]
@@ -18,7 +18,7 @@ case class SeasonDTO(artistId: String,
                   artistName: String,
                   collectionName: String,
                   copyright: String,
-                  releaseDate: ZonedDateTime,
+                  releaseDate: Instant,
                   primaryGenreName: String
                  ) {
   def toSeason(seasonNumber: Int, network: Option[String] = None) = Season(

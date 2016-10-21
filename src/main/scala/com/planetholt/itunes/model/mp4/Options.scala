@@ -1,7 +1,7 @@
 package com.planetholt.itunes.model.mp4
 
 import java.time.format.DateTimeFormatter
-import java.time.{ZoneOffset, ZonedDateTime}
+import java.time.{Instant, ZoneOffset}
 
 import com.planetholt.itunes.Config.FilenameFormats
 import com.planetholt.itunes.Config.FilenameFormats.FilenameFormats
@@ -209,7 +209,7 @@ case class Writer(value: String) extends StringMp4Option {
   override def name: String = "-writer"
 }
 
-case class Year(value: ZonedDateTime) extends Mp4Option[ZonedDateTime] {
+case class Year(value: Instant) extends Mp4Option[Instant] {
   override def name: String = "-year"
   override def toString: String = s"$name ${Year.dateFormat.format(value)}"
 }

@@ -5,7 +5,7 @@ import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import com.planetholt.itunes.model.{Episode ⇒ ModelEpisode, Season ⇒ ModelSeason}
-import java.time.ZonedDateTime
+import java.time.Instant
 
 class OptionsSpec extends Specification with Mockito {
   val unknownSource = "not sure where this will come from yet"
@@ -17,7 +17,7 @@ class OptionsSpec extends Specification with Mockito {
       trackId = 3,
       artistName = "artist",
       collectionName = "show",
-      releaseDate = ZonedDateTime.parse("2014-09-28T07:00:00Z"),
+      releaseDate = Instant.parse("2014-09-28T07:00:00Z"),
       genre = "genre",
       contentAdvisoryRating = "NC17",
       shortDescription = "short",
@@ -33,7 +33,7 @@ class OptionsSpec extends Specification with Mockito {
         artistName = "artistName",
         collectionName = "collectionName",
         copyright = "copyright",
-        releaseDate = ZonedDateTime.now,
+        releaseDate = Instant.now,
         primaryGenreName = "genre",
         seasonNumber = 4,
         network = Option("network")

@@ -10,7 +10,7 @@ import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
 
 class EpisodesRetriever(http: HTTP = HTTP) {
-  implicit val formats = DefaultFormats + ZonedDateTimeSerializer
+  implicit val formats = DefaultFormats + InstantSerializer
 
   def getEpisodes(season: Season,
                   hdVideo: Option[Boolean],

@@ -9,7 +9,7 @@ import skinny.http._
 import scala.concurrent.{ExecutionContext, Future}
 
 class SeasonsRetriever(http: HTTP = HTTP) {
-  implicit val formats = DefaultFormats + ZonedDateTimeSerializer
+  implicit val formats = DefaultFormats + InstantSerializer
 
   def getSeasonOfShow(showName: String, season: Int, network: Option[String] = None)(implicit ec: ExecutionContext): Future[Season] = {
     val req = Request("https://itunes.apple.com/search").queryParams(

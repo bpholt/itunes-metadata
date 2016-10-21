@@ -3,7 +3,7 @@ package com.planetholt.itunes
 import java.nio.file.{Files, Paths}
 
 import com.planetholt.itunes.model.{Episode, Season}
-import java.time.ZonedDateTime
+import java.time.Instant
 import org.specs2.concurrent.ExecutionEnv
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
@@ -32,7 +32,7 @@ class EpisodeRetrieverSpec(implicit ee: ExecutionEnv) extends Specification with
         ("entity", "tvEpisode")
       ))(ee.ec) returns Future.successful(Response(200, body = episodesByCollectionIdResponse))
 
-      private val season = Season("artistId", "collectionId", "artistName", "collectionName", "copyright", ZonedDateTime.now, "genre", 4, None)
+      private val season = Season("artistId", "collectionId", "artistName", "collectionName", "copyright", Instant.now, "genre", 4, None)
       private val hdVideo = Option(true)
       private val artwork = Option("file.png")
       val output = classToTest.getEpisodes(season, hdVideo, artwork)
@@ -46,7 +46,7 @@ class EpisodeRetrieverSpec(implicit ee: ExecutionEnv) extends Specification with
         trackName = "Trust Issues",
         artistName = "The Good Wife",
         collectionName = "The Good Wife, Season 6",
-        releaseDate = ZonedDateTime.parse("2014-09-28T07:00:00Z"),
+        releaseDate = Instant.parse("2014-09-28T07:00:00Z"),
         genre = "Drama",
         contentAdvisoryRating = "TV-14",
         shortDescription = "Alicia scrambles to hold onto Florrick/Agos’ biggest client as the firm continues to struggle with",
@@ -68,7 +68,7 @@ class EpisodeRetrieverSpec(implicit ee: ExecutionEnv) extends Specification with
       http.asyncGet(any[Request])(any[ExecutionContext]) returns Future.successful(Response(200, body = responseIncludingQuotes))
 
       private val showId = "episode-id"
-      private val season = Season("artistId", "collectionId", "artistName", "collectionName", "copyright", ZonedDateTime.now, "genre", 4, None)
+      private val season = Season("artistId", "collectionId", "artistName", "collectionName", "copyright", Instant.now, "genre", 4, None)
       private val hdVideo = Option(true)
       private val artwork = Option("file.png")
       val output = classToTest.getEpisodes(season, hdVideo, artwork)
@@ -83,7 +83,7 @@ class EpisodeRetrieverSpec(implicit ee: ExecutionEnv) extends Specification with
       http.asyncGet(any[Request])(any[ExecutionContext]) returns Future.successful(Response(200, body = responseIncludingQuotes))
 
       private val showId = "episode-id"
-      private val season = Season("artistId", "collectionId", "artistName", "collectionName", "copyright", ZonedDateTime.now, "genre", 4, None)
+      private val season = Season("artistId", "collectionId", "artistName", "collectionName", "copyright", Instant.now, "genre", 4, None)
       private val hdVideo = Option(true)
       private val artwork = Option("file.png")
       val output = classToTest.getEpisodes(season, hdVideo, artwork)

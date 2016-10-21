@@ -1,8 +1,8 @@
 package com.planetholt.itunes
 
-import java.time.{ZoneOffset, ZonedDateTime}
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAccessor
+import java.time.{Instant, ZoneOffset}
 
 import org.json4s.{CustomSerializer, JString}
 
@@ -12,10 +12,10 @@ object ISODateTime {
   private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneOffset.UTC)
 }
 
-object ZonedDateTimeSerializer extends CustomSerializer[ZonedDateTime](_ ⇒
+object InstantSerializer extends CustomSerializer[Instant](_ ⇒
   ({
-    case x: JString ⇒ ZonedDateTime.parse(x.s)
+    case x: JString ⇒ Instant.parse(x.values)
   }, {
-    case x: ZonedDateTime ⇒ JString(ISODateTime.format(x))
+    case x: Instant ⇒ JString(ISODateTime.format(x))
   })
 )

@@ -1,6 +1,6 @@
 package com.planetholt.itunes.model
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
 case class Episode(artistId: Int,
                    collectionId: Int,
@@ -8,7 +8,7 @@ case class Episode(artistId: Int,
                    trackName: String,
                    artistName: String,
                    collectionName: String,
-                   releaseDate: ZonedDateTime,
+                   releaseDate: Instant,
                    genre: String,
                    contentAdvisoryRating: String,
                    shortDescription: String,
@@ -32,7 +32,7 @@ case class CollectionItemDTO(wrapperType: String,
                              trackName: Option[String],
                              artistName: String,
                              collectionName: String,
-                             releaseDate: ZonedDateTime,
+                             releaseDate: Instant,
                              primaryGenreName: String,
                              contentAdvisoryRating: String,
                              shortDescription: Option[String],
