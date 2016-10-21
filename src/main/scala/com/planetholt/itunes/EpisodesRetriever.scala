@@ -2,7 +2,6 @@ package com.planetholt.itunes
 
 import com.planetholt.itunes.model._
 import org.json4s._
-import org.json4s.ext.JodaTimeSerializers
 import org.json4s.native.JsonMethods._
 import skinny.http.{HTTP, _}
 
@@ -11,7 +10,7 @@ import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
 
 class EpisodesRetriever(http: HTTP = HTTP) {
-  implicit val formats = DefaultFormats ++ JodaTimeSerializers.all
+  implicit val formats = DefaultFormats + ZonedDateTimeSerializer
 
   def getEpisodes(season: Season,
                   hdVideo: Option[Boolean],

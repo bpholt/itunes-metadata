@@ -4,7 +4,7 @@ import java.nio.file.{Files, Paths}
 
 import com.planetholt.itunes.exceptions.SeasonNotFoundException
 import com.planetholt.itunes.model.{Season, ServiceException}
-import org.joda.time.DateTime
+import java.time.ZonedDateTime
 import org.specs2.concurrent.ExecutionEnv
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
@@ -41,7 +41,7 @@ class SeasonsRetrieverSpec(implicit ee: ExecutionEnv) extends Specification with
         artistName = "The Good Wife",
         collectionName = "The Good Wife, Season 2",
         copyright = "© CBS Corp 2010",
-        releaseDate = DateTime.parse("2010-09-28T07:00:00Z"),
+        releaseDate = ZonedDateTime.parse("2010-09-28T07:00:00Z"),
         primaryGenreName = "Drama",
         seasonNumber = 2,
         network = Option("CBS")

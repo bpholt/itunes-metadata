@@ -3,7 +3,7 @@ package com.planetholt.itunes
 import com.planetholt.itunes.Config.FilenameFormats
 import com.planetholt.itunes.model.mp4.Options
 import com.planetholt.itunes.model.{Episode, Season}
-import org.joda.time.DateTime
+import java.time.ZonedDateTime
 import org.specs2.concurrent.ExecutionEnv
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
@@ -27,7 +27,7 @@ class MainSpec(implicit ee: ExecutionEnv) extends Specification with Mockito {
       artistName = "The Good Wife",
       collectionName = "The Good Wife, Season 2",
       copyright = "© CBS Corp 2010",
-      releaseDate = DateTime.parse("2010-09-28T07:00:00Z"),
+      releaseDate = ZonedDateTime.parse("2010-09-28T07:00:00Z"),
       primaryGenreName = "Drama",
       seasonNumber = 2,
       network = Option("CBS")
@@ -39,7 +39,7 @@ class MainSpec(implicit ee: ExecutionEnv) extends Specification with Mockito {
       trackName = "Trust Issues",
       artistName = "The Good Wife",
       collectionName = "The Good Wife, Season 6",
-      releaseDate = DateTime.parse("2014-09-28T07:00:00Z"),
+      releaseDate = ZonedDateTime.parse("2014-09-28T07:00:00Z"),
       genre = "Drama",
       contentAdvisoryRating = "TV-14",
       shortDescription = "Alicia scrambles to hold onto Florrick/Agos’ biggest client as the firm continues to struggle with",

@@ -1,10 +1,10 @@
 package com.planetholt.itunes.model.mp4
 
-import com.github.nscala_time.time.StaticDateTimeFormat
+import java.time.format.DateTimeFormatter
+import java.time.{ZoneOffset, ZonedDateTime}
+
 import com.planetholt.itunes.Config.FilenameFormats
 import com.planetholt.itunes.Config.FilenameFormats.FilenameFormats
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormatter
 
 case class Options(input: String, options: List[Mp4Option[_]]) {
   override def toString: String = {
@@ -209,13 +209,13 @@ case class Writer(value: String) extends StringMp4Option {
   override def name: String = "-writer"
 }
 
-case class Year(value: DateTime) extends Mp4Option[DateTime] {
+case class Year(value: ZonedDateTime) extends Mp4Option[ZonedDateTime] {
   override def name: String = "-year"
-  override def toString: String = s"$name ${Year.dateFormat.print(value)}"
+  override def toString: String = s"$name ${Year.dateFormat.format(value)}"
 }
 
 object Year {
-  val dateFormat: DateTimeFormatter = StaticDateTimeFormat.forPattern("yyyy-MM-dd")
+  val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC)
 }
 
 case class ArtistId(value: Int) extends Mp4Option[Int] {
